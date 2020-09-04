@@ -1,0 +1,45 @@
+package ${package};
+
+import cn.eeepay.framework.db.pagination.Page;
+import org.springframework.stereotype.Service;
+import javax.annotation.Resource;
+import ${package}.model.workOrder.${className}Entity;
+import java.io.Serializable;
+import java.util.Collection;
+import ${package}.service.${moduleName}.${className}Service;
+import ${package}.dao.${moduleName}.WorkOrderDao;
+import java.util.List;
+
+
+
+@Service("${classname}Service")
+public class ${className}ServiceImpl implements ${className}Service {
+
+    @Resource
+    private ${className}Dao dao;
+
+    @Override
+    public List<${className}Entity> queryPage(Page page, ${className}Entity info) {
+
+        return dao.queryPage(page,info);
+    }
+
+    @Override
+    public ${className}Entity info(Long id){
+        return dao.info(id);
+    }
+
+    @Override
+    public boolean saveOrUpdate(${className}Entity info){
+        if(info.getId()!=null){
+            return dao.update(info)==1;
+        }else{
+            return dao.save(info)==1;
+        }
+    }
+
+    @Override
+    public boolean removeById(Long id){
+        return dao.removeById(id)>=1;
+    }
+}

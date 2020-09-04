@@ -1,0 +1,117 @@
+package ${package};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import cn.eeepay.boss.system.SystemLog;
+
+import java.util.Arrays;
+import ${package}.model.workOrder.${className}Entity;
+import ${package}.service.workOrder.${className}Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import cn.eeepay.boss.system.DataSource;
+import cn.eeepay.framework.db.pagination.Page;
+import cn.eeepay.framework.util.ResultModel;
+import cn.eeepay.framework.util.Constants;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("${moduleName}")
+public class ${className}Controller {
+    private Logger log = LoggerFactory.getLogger(${className}Controller.class);
+
+    @Autowired
+    private ${className}Service ${classname}Service;
+
+    /**
+     * 列表
+     */
+    @RequestMapping("/list")
+    @DataSource(Constants.DATA_SOURCE_SLAVE)
+    public ResultModel list(@RequestParam("page") Page<${className}Entity> page,@RequestParam("info")${className}Entity info) {
+        try {
+            ${classname}Service.queryPage(page, info);
+            return ResultModel.ok().put("page", page);
+        } catch (Exception e) {
+            log.info("查询失败", e.getMessage());
+            return ResultModel.error("查询失败");
+        }
+    }
+
+
+    /**
+     * 详情
+     */
+    @DataSource(Constants.DATA_SOURCE_SLAVE)
+    @RequestMapping("/info/{${pk.attrname}}")
+    public ResultModel info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}) {
+        try {
+                ${className}Entity ${classname} = ${classname}Service.info(${pk.attrname});
+            return ResultModel.ok().put("data", ${classname});
+        } catch (Exception e) {
+            log.info("获取详情失败", e.getMessage());
+            return ResultModel.error("获取详情失败");
+        }
+    }
+
+    /**
+     * 保存
+     */
+    @DataSource
+    @RequestMapping("/save")
+    @SystemLog(operCode = "${pathName}.save", description = "保存")
+    public ResultModel save(@RequestBody ${className}Entity ${classname}) {
+        try {
+                ${classname}Service.saveOrUpdate(${classname});
+            return ResultModel.ok("保存成功");
+        } catch (Exception e) {
+            log.info("保存失败", e.getMessage());
+            return ResultModel.error("保存失败");
+        }
+    }
+
+    /**
+     * 修改
+     */
+    @DataSource
+    @RequestMapping("/update")
+    @SystemLog(operCode = "${pathName}.update", description = "修改")
+    public ResultModel update(@RequestBody ${className}Entity info) {
+        try {
+                ${classname}Service.saveOrUpdate(info);
+            return ResultModel.ok("修改成功");
+        } catch (Exception e) {
+            log.info("修改失败", e.getMessage());
+            return ResultModel.error("修改失败");
+        }
+    }
+
+    /**
+     * 删除
+     */
+    @DataSource
+    @RequestMapping("/delete")
+    @SystemLog(operCode = "${pathName}.delete", description = "删除")
+    public ResultModel delete(@RequestBody Long id) {
+        try {
+                ${classname}Service.removeById(id);
+            return ResultModel.ok("删除成功");
+        } catch (Exception e) {
+            log.info("删除失败", e.getMessage());
+            return ResultModel.error("删除失败");
+        }
+
+    }
+
+}

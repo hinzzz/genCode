@@ -1,0 +1,257 @@
+package ${package}.${moduleName}.dao;
+
+
+import ${package}.model.${moduleName}.${className}Entity;
+import org.apache.ibatis.jdbc.SQL;
+import cn.eeepay.framework.util.StringUtil;
+import org.apache.ibatis.annotations.*;
+import java.util.Map;
+import java.util.List;
+import cn.eeepay.framework.db.pagination.Page;
+
+
+
+public interface ${className}Dao  {
+
+@Insert( "insert into work_order(`id`,`order_no`,`work_type_id`,`work_type_name`,`status`,`create_type`,`create_user_id`,`create_dept_no`,`current_flow_no`,`deal_process`,`receive_agent_node`,`reply_type`,`agent_reply_status`,`urge_status`,`read_status`,`work_content`,`end_reply_days`,`end_reply_timeEnd`,`end_reply_timeEnd`,`end_reply_time`,`create_timeEnd`,`create_timeEnd`,`create_time`,`last_update_timeEnd`,`last_update_timeEnd`,`last_update_time`,`agent_show`,`current_user_id`,`current_dept_no`,`over_due_reply`,`merchant_no`,`source_dept_no`,`complainant`,`merchant_mobilephone`,`deal_result`,`work_product_type`) values ( #{info.id},#{info.orderNo},#{info.workTypeId},#{info.workTypeName},#{info.status},#{info.createType},#{info.createUserId},#{info.createDeptNo},#{info.currentFlowNo},#{info.dealProcess},#{info.receiveAgentNode},#{info.replyType},#{info.agentReplyStatus},#{info.urgeStatus},#{info.readStatus},#{info.workContent},#{info.endReplyDays},#{info.endReplyTimeEnd},#{info.endReplyTimeEnd},#{info.endReplyTime},#{info.createTimeEnd},#{info.createTimeEnd},#{info.createTime},#{info.lastUpdateTimeEnd},#{info.lastUpdateTimeEnd},#{info.lastUpdateTime},#{info.agentShow},#{info.currentUserId},#{info.currentDeptNo},#{info.overDueReply},#{info.merchantNo},#{info.sourceDeptNo},#{info.complainant},#{info.merchantMobilephone},#{info.dealResult},#{info.workProductType})") 
+@SelectKey(statement = "select LAST_INSERT_ID()", keyProperty = "info.id", before = false, resultType = Long.class)
+int save(@Param("info") ${className}Entity info);
+
+@Delete(" delete from work_orderwhere id = #{info.id})")
+int removeById(@Param("id") Long id);
+
+
+@SelectProvider(type= ${className}Dao.SqlProvider.class,method="queryPage")
+@ResultType(${className}Entity.class)
+List<${className}Entity> queryPage(@Param("page") Page page,@Param("info") ${className}Entity info);
+
+@SelectProvider(type= ${className}Dao.SqlProvider.class,method="update")
+int update(@Param("info") ${className}Entity info);
+
+@Select(" select * from work_order where id = #{id} ")
+@ResultType(${className}Entity.class)
+${className}Entity info(@Param("id") Long id);
+
+
+class SqlProvider {
+     public String queryPage(Map<String, Object> param) {
+         final ${className}Entity  info = (${className}Entity) param.get("info");
+         return new SQL() {{
+             SELECT(" id,order_no,work_type_id,work_type_name,status,create_type,create_user_id,create_dept_no,current_flow_no,deal_process,receive_agent_node,reply_type,agent_reply_status,urge_status,read_status,work_content,end_reply_days,end_reply_timeEnd,end_reply_timeEnd,end_reply_time,create_timeEnd,create_timeEnd,create_time,last_update_timeEnd,last_update_timeEnd,last_update_time,agent_show,current_user_id,current_dept_no,over_due_reply,merchant_no,source_dept_no,complainant,merchant_mobilephone,deal_result,work_product_type");
+             if(info.getId() != null ){
+                 WHERE( "id = #{info.id}");
+             }
+             if(StringUtil.isNotBlank(info.getOrderNo())){
+                 WHERE( "order_no = #{info.orderNo}");
+             }
+             if(info.getWorkTypeId() != null ){
+                 WHERE( "work_type_id = #{info.workTypeId}");
+             }
+             if(StringUtil.isNotBlank(info.getWorkTypeName())){
+                 WHERE( "work_type_name = #{info.workTypeName}");
+             }
+             if(info.getStatus() != null ){
+                 WHERE( "status = #{info.status}");
+             }
+             if(StringUtil.isNotBlank(info.getCreateType())){
+                 WHERE( "create_type = #{info.createType}");
+             }
+             if(info.getCreateUserId() != null ){
+                 WHERE( "create_user_id = #{info.createUserId}");
+             }
+             if(info.getCreateDeptNo() != null ){
+                 WHERE( "create_dept_no = #{info.createDeptNo}");
+             }
+             if(StringUtil.isNotBlank(info.getCurrentFlowNo())){
+                 WHERE( "current_flow_no = #{info.currentFlowNo}");
+             }
+             if(StringUtil.isNotBlank(info.getDealProcess())){
+                 WHERE( "deal_process = #{info.dealProcess}");
+             }
+             if(StringUtil.isNotBlank(info.getReceiveAgentNode())){
+                 WHERE( "receive_agent_node = #{info.receiveAgentNode}");
+             }
+             if(info.getReplyType() != null ){
+                 WHERE( "reply_type = #{info.replyType}");
+             }
+             if(info.getAgentReplyStatus() != null ){
+                 WHERE( "agent_reply_status = #{info.agentReplyStatus}");
+             }
+             if(info.getUrgeStatus() != null ){
+                 WHERE( "urge_status = #{info.urgeStatus}");
+             }
+             if(info.getReadStatus() != null ){
+                 WHERE( "read_status = #{info.readStatus}");
+             }
+             if(StringUtil.isNotBlank(info.getWorkContent())){
+                 WHERE( "work_content = #{info.workContent}");
+             }
+             if(info.getEndReplyDays() != null ){
+                 WHERE( "end_reply_days = #{info.endReplyDays}");
+             }
+             if(info.getEndReplyTimeEnd() != null ){
+                 WHERE( "end_reply_timeEnd<=  #{info.endReplyTimeEnd}");
+             if(info.getEndReplyTimeEnd() != null ){
+                 WHERE( "end_reply_timeEnd<=  #{info.endReplyTimeEnd}");
+             if(info.getEndReplyTime() != null ){
+                 WHERE( "end_reply_time<=  #{info.endReplyTime}");
+             if(info.getCreateTimeEnd() != null ){
+                 WHERE( "create_timeEnd<=  #{info.createTimeEnd}");
+             if(info.getCreateTimeEnd() != null ){
+                 WHERE( "create_timeEnd<=  #{info.createTimeEnd}");
+             if(info.getLastUpdateTimeEnd() != null ){
+                 WHERE( "last_update_timeEnd<=  #{info.lastUpdateTimeEnd}");
+             if(info.getLastUpdateTimeEnd() != null ){
+                 WHERE( "last_update_timeEnd<=  #{info.lastUpdateTimeEnd}");
+             if(info.getAgentShow() != null ){
+                 WHERE( "agent_show = #{info.agentShow}");
+             }
+             if(info.getCurrentUserId() != null ){
+                 WHERE( "current_user_id = #{info.currentUserId}");
+             }
+             if(info.getCurrentDeptNo() != null ){
+                 WHERE( "current_dept_no = #{info.currentDeptNo}");
+             }
+             if(info.getOverDueReply() != null ){
+                 WHERE( "over_due_reply = #{info.overDueReply}");
+             }
+             if(StringUtil.isNotBlank(info.getMerchantNo())){
+                 WHERE( "merchant_no = #{info.merchantNo}");
+             }
+             if(info.getSourceDeptNo() != null ){
+                 WHERE( "source_dept_no = #{info.sourceDeptNo}");
+             }
+             if(StringUtil.isNotBlank(info.getComplainant())){
+                 WHERE( "complainant = #{info.complainant}");
+             }
+             if(StringUtil.isNotBlank(info.getMerchantMobilephone())){
+                 WHERE( "merchant_mobilephone = #{info.merchantMobilephone}");
+             }
+             if(StringUtil.isNotBlank(info.getDealResult())){
+                 WHERE( "deal_result = #{info.dealResult}");
+             }
+             if(StringUtil.isNotBlank(info.getWorkProductType())){
+                 WHERE( "work_product_type = #{info.workProductType}");
+             }
+         }}.toString();
+     }
+     public String update(Map<String, Object> param) {
+         final ${className}Entity  info = (${className}Entity) param.get("info");
+         return new SQL() {{
+             UPDATE(" work_order");
+             if(StringUtil.isNotBlank(info.getId())){
+                 SET( "id = #{info.id}");
+             }
+             if(StringUtil.isNotBlank(info.getOrderNo())){
+                 SET( "order_no = #{info.orderNo}");
+             }
+             if(StringUtil.isNotBlank(info.getWorkTypeId())){
+                 SET( "work_type_id = #{info.workTypeId}");
+             }
+             if(StringUtil.isNotBlank(info.getWorkTypeName())){
+                 SET( "work_type_name = #{info.workTypeName}");
+             }
+             if(StringUtil.isNotBlank(info.getStatus())){
+                 SET( "status = #{info.status}");
+             }
+             if(StringUtil.isNotBlank(info.getCreateType())){
+                 SET( "create_type = #{info.createType}");
+             }
+             if(StringUtil.isNotBlank(info.getCreateUserId())){
+                 SET( "create_user_id = #{info.createUserId}");
+             }
+             if(StringUtil.isNotBlank(info.getCreateDeptNo())){
+                 SET( "create_dept_no = #{info.createDeptNo}");
+             }
+             if(StringUtil.isNotBlank(info.getCurrentFlowNo())){
+                 SET( "current_flow_no = #{info.currentFlowNo}");
+             }
+             if(StringUtil.isNotBlank(info.getDealProcess())){
+                 SET( "deal_process = #{info.dealProcess}");
+             }
+             if(StringUtil.isNotBlank(info.getReceiveAgentNode())){
+                 SET( "receive_agent_node = #{info.receiveAgentNode}");
+             }
+             if(StringUtil.isNotBlank(info.getReplyType())){
+                 SET( "reply_type = #{info.replyType}");
+             }
+             if(StringUtil.isNotBlank(info.getAgentReplyStatus())){
+                 SET( "agent_reply_status = #{info.agentReplyStatus}");
+             }
+             if(StringUtil.isNotBlank(info.getUrgeStatus())){
+                 SET( "urge_status = #{info.urgeStatus}");
+             }
+             if(StringUtil.isNotBlank(info.getReadStatus())){
+                 SET( "read_status = #{info.readStatus}");
+             }
+             if(StringUtil.isNotBlank(info.getWorkContent())){
+                 SET( "work_content = #{info.workContent}");
+             }
+             if(StringUtil.isNotBlank(info.getEndReplyDays())){
+                 SET( "end_reply_days = #{info.endReplyDays}");
+             }
+             if(StringUtil.isNotBlank(info.getEndReplyTimeEnd())){
+                 SET( "end_reply_timeEnd = #{info.endReplyTimeEnd}");
+             }
+             if(StringUtil.isNotBlank(info.getEndReplyTimeEnd())){
+                 SET( "end_reply_timeEnd = #{info.endReplyTimeEnd}");
+             }
+             if(StringUtil.isNotBlank(info.getEndReplyTime())){
+                 SET( "end_reply_time = #{info.endReplyTime}");
+             }
+             if(StringUtil.isNotBlank(info.getCreateTimeEnd())){
+                 SET( "create_timeEnd = #{info.createTimeEnd}");
+             }
+             if(StringUtil.isNotBlank(info.getCreateTimeEnd())){
+                 SET( "create_timeEnd = #{info.createTimeEnd}");
+             }
+             if(StringUtil.isNotBlank(info.getCreateTime())){
+                 SET( "create_time = #{info.createTime}");
+             }
+             if(StringUtil.isNotBlank(info.getLastUpdateTimeEnd())){
+                 SET( "last_update_timeEnd = #{info.lastUpdateTimeEnd}");
+             }
+             if(StringUtil.isNotBlank(info.getLastUpdateTimeEnd())){
+                 SET( "last_update_timeEnd = #{info.lastUpdateTimeEnd}");
+             }
+             if(StringUtil.isNotBlank(info.getLastUpdateTime())){
+                 SET( "last_update_time = #{info.lastUpdateTime}");
+             }
+             if(StringUtil.isNotBlank(info.getAgentShow())){
+                 SET( "agent_show = #{info.agentShow}");
+             }
+             if(StringUtil.isNotBlank(info.getCurrentUserId())){
+                 SET( "current_user_id = #{info.currentUserId}");
+             }
+             if(StringUtil.isNotBlank(info.getCurrentDeptNo())){
+                 SET( "current_dept_no = #{info.currentDeptNo}");
+             }
+             if(StringUtil.isNotBlank(info.getOverDueReply())){
+                 SET( "over_due_reply = #{info.overDueReply}");
+             }
+             if(StringUtil.isNotBlank(info.getMerchantNo())){
+                 SET( "merchant_no = #{info.merchantNo}");
+             }
+             if(StringUtil.isNotBlank(info.getSourceDeptNo())){
+                 SET( "source_dept_no = #{info.sourceDeptNo}");
+             }
+             if(StringUtil.isNotBlank(info.getComplainant())){
+                 SET( "complainant = #{info.complainant}");
+             }
+             if(StringUtil.isNotBlank(info.getMerchantMobilephone())){
+                 SET( "merchant_mobilephone = #{info.merchantMobilephone}");
+             }
+             if(StringUtil.isNotBlank(info.getDealResult())){
+                 SET( "deal_result = #{info.dealResult}");
+             }
+             if(StringUtil.isNotBlank(info.getWorkProductType())){
+                 SET( "work_product_type = #{info.workProductType}");
+             }
+             WHERE(" id = #{info.id} ");
+         }}.toString();
+     }
+}
+
+
+
+}
